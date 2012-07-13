@@ -1,0 +1,123 @@
+<head>
+  <title>abr2012</title>
+</head>
+
+<body>
+{{#if currentUser}}
+  {{> main }}
+{{else}}
+  {{> login}}
+{{/if}}
+</body>
+
+
+<template name="main">
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="brand" href="/">ABR 2012</a>
+          <div class="nav-collapse pull-right">
+          	<ul class="nav">
+              <li><a href="#">{{>loginButtons}}</a></li>
+            </ul>
+          </div>
+          <div class="nav-collapse">
+            <ul class="nav">
+              <li><a class="page_name_nav active" id="brewery_list" href="#brewery_list">Breweries</a></li>
+              <li><a class="page_name_nav" id="beer_list" href="#beer_list">Beers</a></li>
+              <li><a class="page_name_nav" id="review_list" href="#review_list">My Reviews</a></li>
+              {{#if is_admin currentUser._id}}<li><a class="page_name_nav" id="admin" href="#admin">Admin</a></li>{{/if}}
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+  
+<div class="row">
+	<div class="span12">
+{{# if page_name "brewery_list"}}
+
+{{> brewery_list}}
+
+{{/if}}
+
+{{# if page_name "beer_list"}}
+
+{{> beer_list }}
+
+{{/if}}
+
+{{# if page_name "review_list"}}
+
+{{> review_list }}
+
+{{/if}}
+
+{{# if page_name "admin"}}
+
+{{> admin }}
+
+{{/if}}
+</div>
+</div>
+</template>
+
+<template name="brewery_list">
+
+	<input type="text" id="filter_brewery" value="{{brewery_search}}" />
+	<input type="button" class="btn btn-primary filter_brewery" value="Search" />
+	<br/>
+
+
+  {{#each breweries}}
+  <ul>	
+  	{{>brewery_info}}
+  </ul>
+  {{else}}
+  	no breweries yet
+  {{/each}}
+</template>
+
+<template name="login">
+	<h1> please log in </h1>
+
+	<div>
+		{{> loginButtons}}
+	</div>
+</template>
+
+<template name="brewery_info">
+	<li>
+		{{name}} - {{description}} 
+		<input class="delete btn btn-danger" type="button" value="X" />
+	</li>
+</template>
+
+<template name="beer_list">
+	<h1>Your mom!</h1>
+	<input type="text" id="filter_brewery" value="{{brewery_search}}" />
+	<input type="button" class="btn btn-primary filter_brewery" value="Search" />
+	<br/>
+
+  {{#each beers}}
+  <ul>	
+  	{{>beer_item}}
+  </ul>
+  {{else}}
+  	no beers yet
+  {{/each}}
+
+</template>
+
+<template name="beer_item">
+
+	<li>{{name}} <input type="button" class="btn btn-primary review_beer" value="I Drank This" /></li>
+
+</template>
+
+<template name="review_list">
+	<h1>DRINK SOME BEERS</h1>
+</template>
+
+

@@ -1,0 +1,44 @@
+<template name="admin">
+
+	<fieldset>
+		<legend>Add Brewery</legend>
+		{{>add_brewery}}
+	</fieldset>
+
+	<fieldset>
+		<legend>Add Beer</legend>
+		{{> add_beer}}
+	</fieldset>
+</template>
+
+
+<template name="add_brewery">
+	<div>
+	  	<input onfocus="$(this).val('');" value="name" type="text" id="brewery_name" /><br/>
+	  	<input onfocus="$(this).val('');" value="description" 	type="text" id="brewery_description" /><br/>
+	  	<input onfocus="$(this).val('');" value="url" 	type="text" id="brewery_url" /><br/>	
+	  	<input onfocus="$(this).val('');" class="text-default" value="phone" 	type="text" id="brewery_phone" /><br/>	
+	  	<input class="add btn btn-success" type="button" value="Add" />
+	</div>
+</template>
+
+<template name="add_beer">
+	<div>
+		<select id="brewery_select">
+		  {{#each breweries}}
+		  <ul>	
+		  	{{>brewery_option}}
+		  </ul>
+		  {{else}}
+		  	<option value="">no breweries yet</option>
+		  {{/each}}
+		</select>
+		<input onfocus="$(this).val('');" value="name" type="text" id="beer_name" /><br/>
+		<input class="add btn btn-success" type="button" value="Add" />
+	</div>
+
+</template>
+
+<template name="brewery_option">
+	<option value="{{_id}}">{{name}}</option>
+</template>

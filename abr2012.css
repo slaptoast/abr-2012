@@ -1,0 +1,13 @@
+/* CSS declarations go here */
+      body {
+        padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+      }
+
+      .row {
+      	padding-left:15px;
+      }
+
+      .btn {
+      	position: relative;
+      	top:-4px;
+      }
