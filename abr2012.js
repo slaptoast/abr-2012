@@ -32,12 +32,12 @@ if (Meteor.is_client) {
   }
 
   Template.main.is_admin = function (user_id) {
-    if(user_id == '23089365-dae6-4648-912e-5c7b5589e2e6') 
-    {
-      return true;
-    }
-    else {
-      return false;
+    switch (user_id) {
+            case '23089365-dae6-4648-912e-5c7b5589e2e6':
+            case '997442c3-ed71-4833-8b41-695a4976b388':
+                return true;
+            default:
+                return false;
     }
   }
 
@@ -121,6 +121,8 @@ if (Meteor.is_client) {
         Breweries.insert( {name: brewery_name, description: brewery_description });
         $('#brewery_name').val('');
         $('#brewery_description').val('');
+        $('#brewery_url').val('');
+        $('#brewery_phone').val('');
     }
   };
 
