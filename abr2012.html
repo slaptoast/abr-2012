@@ -113,16 +113,22 @@
 <template name="beer_item">
 
 	<li>
-        {{name}} <input type="button" class="btn btn-primary review_beer" value="I Drank This" />
+        {{name}} <input type="button" class="btn {{#if beer_rating}}btn-inverse{{else}}btn-primary{{/if}} review_beer" value="I Drank This" />
         <form class="hidden" id="beer_{{_id}}" action="/">
+            {{#if rating}}
+                <legend>You have already Rated this beer!</legend>
+            {{else}}
+                <legend>Rate this Beer:</legend>
+            {{/if}}
             <label for="review_text">Do you have a comment?</label>
-            <input name="review_text" type="text" class="review_text" />
+            <input name="review_text" type="text" class="review_text" value="{{rating.comments}}" />
 
             <label>Rate it 1 to 3</label>
+
             <div class="btn-group" data-toggle="buttons-radio">
-                <button type="button" value="1" class="btn rating_button">One</button>
-                <button type="button" value="2" class="btn rating_button">Two</button>
-                <button type="button" value="3" class="btn rating_button">Three</button>
+                {{#each fetch_rating_buttons rating}}
+                <button type="button" value="{{value}}" class="btn rating_button{{active}}">{{value}}</button>
+                {{/each}}
             </div>
 
             <input type="button" class="btn btn-primary submit_review" value="Submit" />
@@ -152,6 +158,6 @@
 
 <template name="ratings_info">
     <li>
-        {{rated_beer beer_id}} - {{rating}}  - {{comments}}
+        {{rated_beer beer_id}} - {{rating}} {{#if comments}}- {{comments}}{{/if}}
     </li>
 </template>

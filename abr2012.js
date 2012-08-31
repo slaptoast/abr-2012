@@ -22,7 +22,6 @@ Ratings = new Meteor.Collection("ratings");
   }
 */
 
-
 if (Meteor.is_client) {
 
     var pageToLoad = window.location.hash;
@@ -37,7 +36,7 @@ if (Meteor.is_client) {
 
   Template.main.page_name = function (page_name) {
       return Session.equals('page_name', page_name);
-  }
+  };
 
   Template.main.is_admin = function (user_id) {
       Session.set('user_id', user_id);
@@ -48,7 +47,7 @@ if (Meteor.is_client) {
             default:
                 return false;
     }
-  }
+  };
 
   Template.main.greeting = function () {
     return "Welcome to abr2012.";
@@ -81,8 +80,12 @@ if (Meteor.is_client) {
       value = new RegExp('.*' + value + '.*');
       query = {$or : [ {"name": value},  { "description": value }]};
     }
+      var beers = Beers.find(query).fetch();
+      $.each(beers, function(){
+          this.rating = Ratings.findOne({beer_id:this._id, user_id:Session.get('user_id')});
+      });
 
-    return Beers.find(query);
+    return beers;
   };
 
     Template.review_list.ratings = function() {
@@ -101,6 +104,35 @@ if (Meteor.is_client) {
         var beer = Beers.findOne(beer_id);
 
         return beer.name;
+    };
+
+    Template.beer_item.beer_rating = function() {
+
+        var query = {
+            beer_id: this._id,
+            user_id: Session.get('user_id')
+        };
+
+        var rating = Ratings.find(query).fetch()
+
+        return rating;
+    };
+
+    Template.beer_item.fetch_rating_buttons = function(beer_rating) {
+        var buttons = new Array();
+
+        for (i = 1; i <= 10; i++) {
+            var active = '';
+            if (beer_rating != undefined) {
+                active = beer_rating.rating == i ? ' active' : '';
+            }
+            buttons.push({
+                value: i,
+                active: active
+            })
+        }
+
+        return buttons;
     };
 
   Template.main.events = {
@@ -172,21 +204,39 @@ if (Meteor.is_client) {
             var rating   = $form.find('.rating_button.active').val();
             var userId   = Session.get('user_id');
 
-            Ratings.insert({
+            if (rating == undefined) {
+                alert("You need to select a value!");
+                return;
+            }
+
+            var ratingObj = Ratings.findOne({
                 beer_id:  beerId,
-                comments: comments,
-                rating: rating,
                 user_id: userId
             });
+
+            if (!ratingObj) {
+                Ratings.insert({
+                    beer_id:  beerId,
+                    comments: comments,
+                    rating: rating,
+                    user_id: userId
+                });
+            } else {
+                Ratings.update(
+                    ratingObj._id,
+                    {$set:{comments: comments,rating: rating}}
+                )
+            }
+
 
             $form.addClass('hidden');
         },
         'click .review_beer': function() {
             var beerId = this._id;
             var $form = $('#beer_' + beerId);
+            var $comments = $form.find('.review_text');
 
-            $form.removeClass('hidden');
-            console.log(this);
+            $form.toggleClass('hidden');
         }
     };
 
@@ -220,7 +270,8 @@ if (Meteor.is_server) {
     Ratings.allow({
       insert: function () {return true;}
       , remove: function () {return true;}
-    });        
+      , update: function () {return true;}
+    });
 /*
     Todos.allow({
       insert: function () {return true; },
