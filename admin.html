@@ -9,8 +9,8 @@
 		<legend>Add Beer</legend>
 		{{> add_beer}}
 	</fieldset>
-</template>
 
+</template>
 
 <template name="add_brewery">
 	<div>
@@ -26,9 +26,7 @@
 	<div>
 		<select id="brewery_select">
 		  {{#each breweries}}
-		  <ul>	
 		  	{{>brewery_option}}
-		  </ul>
 		  {{else}}
 		  	<option value="">no breweries yet</option>
 		  {{/each}}

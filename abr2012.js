@@ -119,6 +119,7 @@ if (Meteor.is_client) {
         var brewery_name = $('#brewery_name').val();
         var brewery_description = $('#brewery_description').val();
         Breweries.insert( {name: brewery_name, description: brewery_description });
+        Template.admin.call();
         $('#brewery_name').val('');
         $('#brewery_description').val('');
         $('#brewery_url').val('');
@@ -136,6 +137,8 @@ if (Meteor.is_client) {
         $('#beer_name').val('');
     }
   };
+
+
 
 }
 
