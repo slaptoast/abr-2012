@@ -22,16 +22,25 @@ Ratings = new Meteor.Collection("ratings");
   }
 */
 
-Session.set('page_name', 'brewery_list');
-Session.set('brewery_search', null);
 
 if (Meteor.is_client) {
 
+    var pageToLoad = window.location.hash;
+
+    if (!pageToLoad) {
+        pageToLoad = "brewery_list";
+    } else {
+        pageToLoad = pageToLoad.slice(1);
+    }
+    Session.set('page_name', pageToLoad);
+    Session.set('brewery_search', null);
+
   Template.main.page_name = function (page_name) {
-    return Session.equals('page_name', page_name);
+      return Session.equals('page_name', page_name);
   }
 
   Template.main.is_admin = function (user_id) {
+      Session.set('user_id', user_id);
     switch (user_id) {
             case '23089365-dae6-4648-912e-5c7b5589e2e6':
             case '997442c3-ed71-4833-8b41-695a4976b388':
@@ -48,7 +57,7 @@ if (Meteor.is_client) {
   Template.brewery_list.brewery_search = function () {
     var val = Session.get('brewery_search');
     return (val == null) ? '' : val;
-  }
+  };
 
   breweries = function () {
     var query = {};
@@ -65,16 +74,34 @@ if (Meteor.is_client) {
 
   Template.beer_list.beers = function () {
     var query = {};
-/*
+
     var value = Session.get('beer_search');
 
     if(value) {
       value = new RegExp('.*' + value + '.*');
       query = {$or : [ {"name": value},  { "description": value }]};
-    }*/
+    }
 
     return Beers.find(query);
   };
+
+    Template.review_list.ratings = function() {
+        var query = {};
+
+        var value = Session.get('brewery_search');
+
+        if(value) {
+            value = new RegExp('.*' + value + '.*');
+            query = {$or : [ {"name": value},  { "description": value }]};
+        }
+        return Ratings.find(query);
+    };
+
+    Template.ratings_info.rated_beer = function(beer_id) {
+        var beer = Beers.findOne(beer_id);
+
+        return beer.name;
+    };
 
   Template.main.events = {
     'click .delete' : function () {
@@ -119,7 +146,6 @@ if (Meteor.is_client) {
         var brewery_name = $('#brewery_name').val();
         var brewery_description = $('#brewery_description').val();
         Breweries.insert( {name: brewery_name, description: brewery_description });
-        Template.admin.call();
         $('#brewery_name').val('');
         $('#brewery_description').val('');
         $('#brewery_url').val('');
@@ -138,7 +164,31 @@ if (Meteor.is_client) {
     }
   };
 
+    Template.beer_list.events = {
+        'click .submit_review' : function () {
+            var beerId   = this._id;
+            var $form    = $('#beer_' + beerId);
+            var comments = $form.find('.review_text').val();
+            var rating   = $form.find('.rating_button.active').val();
+            var userId   = Session.get('user_id');
 
+            Ratings.insert({
+                beer_id:  beerId,
+                comments: comments,
+                rating: rating,
+                user_id: userId
+            });
+
+            $form.addClass('hidden');
+        },
+        'click .review_beer': function() {
+            var beerId = this._id;
+            var $form = $('#beer_' + beerId);
+
+            $form.removeClass('hidden');
+            console.log(this);
+        }
+    };
 
 }
 

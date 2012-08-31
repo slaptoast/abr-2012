@@ -99,25 +99,59 @@
 	<input type="text" id="filter_brewery" value="{{brewery_search}}" />
 	<input type="button" class="btn btn-primary filter_brewery" value="Search" />
 	<br/>
+    <ul>
+      {{#each beers}}
 
-  {{#each beers}}
-  <ul>	
-  	{{>beer_item}}
-  </ul>
-  {{else}}
-  	no beers yet
-  {{/each}}
+        {{>beer_item}}
 
+      {{else}}
+        no beers yet
+      {{/each}}
+    </ul>
 </template>
 
 <template name="beer_item">
 
-	<li>{{name}} <input type="button" class="btn btn-primary review_beer" value="I Drank This" /></li>
+	<li>
+        {{name}} <input type="button" class="btn btn-primary review_beer" value="I Drank This" />
+        <form class="hidden" id="beer_{{_id}}" action="/">
+            <label for="review_text">Do you have a comment?</label>
+            <input name="review_text" type="text" class="review_text" />
 
+            <label>Rate it 1 to 3</label>
+            <div class="btn-group" data-toggle="buttons-radio">
+                <button type="button" value="1" class="btn rating_button">One</button>
+                <button type="button" value="2" class="btn rating_button">Two</button>
+                <button type="button" value="3" class="btn rating_button">Three</button>
+            </div>
+
+            <input type="button" class="btn btn-primary submit_review" value="Submit" />
+        </form>
+    </li>
 </template>
 
 <template name="review_list">
-	<h1>DRINK SOME BEERS</h1>
+    {{#if ratings}}
+    <h1>Here's how people feel</h1>
+
+
+    <ul>
+        {{#each ratings}}
+
+                {{>ratings_info}}
+
+        {{/each}}
+    </ul>
+    {{else}}
+        <h1>DRINK SOME BEERS</h1>
+
+        <p>You have no ratings!</p>
+
+    {{/if}}
 </template>
 
-
+<template name="ratings_info">
+    <li>
+        {{rated_beer beer_id}} - {{rating}}  - {{comments}}
+    </li>
+</template>
