@@ -89,7 +89,7 @@
 
 <template name="brewery_info">
 	<li>
-		{{name}} - {{description}}
+		<a href="#beer_list" class="brewery_beer_list" data-brewery="{{_id}}">{{name}}</a> - {{description}}
         {{#if is_admin currentUser._id}}
 		<input class="delete btn btn-danger" type="button" value="X" />
         {{/if}}

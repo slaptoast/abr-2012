@@ -39,7 +39,9 @@ if (Meteor.is_client) {
   };
 
   Template.main.is_admin = function (user_id) {
-      Session.set('user_id', user_id);
+      if (!Session.get('user_id')) {
+          Session.set('user_id', user_id);
+      }
     switch (user_id) {
             case '23089365-dae6-4648-912e-5c7b5589e2e6':
             case '997442c3-ed71-4833-8b41-695a4976b388':
@@ -76,9 +78,13 @@ if (Meteor.is_client) {
 
     var value = Session.get('beer_search');
 
+      var byBrewery = Session.get('brewery_id');
+
     if(value) {
       value = new RegExp('.*' + value + '.*');
       query = {$or : [ {"name": value},  { "description": value }]};
+    } else if (byBrewery) {
+        query = {brewery_id: byBrewery}
     }
       var beers = Beers.find(query).fetch();
       $.each(beers, function(){
@@ -178,6 +184,13 @@ if (Meteor.is_client) {
       Session.set('page_name', target.attr('id'));
     }
   };
+
+    Template.brewery_list.events = {
+        'click .brewery_beer_list': function(event) {
+          Session.set('page_name', 'beer_list');
+          Session.set('brewery_id', $(event.target).data('brewery'));
+      }
+    };
 
   Template.add_brewery.events = {
     'click .add' : function () {
