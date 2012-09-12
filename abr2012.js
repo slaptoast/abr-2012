@@ -104,6 +104,14 @@ if (Meteor.is_client) {
         return beers;
     };
 
+    Template.beer_list.brewery = function() {
+        if (Session.get('brewery_id')) {
+            return Breweries.findOne({_id: Session.get('brewery_id')});
+        }
+
+        return;
+    };
+
     Template.review_list.ratings = function () {
         var query = {};
 
@@ -191,6 +199,7 @@ if (Meteor.is_client) {
             $('.page_name_nav').removeClass('active');
             target.addClass('active');
             Session.set('page_name', target.attr('id'));
+            Session.set('brewery_id', null);
         }
     };
 
