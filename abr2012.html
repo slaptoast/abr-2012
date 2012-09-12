@@ -89,8 +89,10 @@
 
 <template name="brewery_info">
 	<li>
-		{{name}} - {{description}} 
+		{{name}} - {{description}}
+        {{#if is_admin currentUser._id}}
 		<input class="delete btn btn-danger" type="button" value="X" />
+        {{/if}}
 	</li>
 </template>
 
@@ -123,7 +125,7 @@
             <label for="review_text">Do you have a comment?</label>
             <input name="review_text" type="text" class="review_text" value="{{rating.comments}}" />
 
-            <label>Rate it 1 to 3</label>
+            <label>Rate it 1 to 10</label>
 
             <div class="btn-group" data-toggle="buttons-radio">
                 {{#each fetch_rating_buttons rating}}

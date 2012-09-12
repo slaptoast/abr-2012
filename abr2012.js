@@ -96,12 +96,18 @@ if (Meteor.is_client) {
         if(value) {
             value = new RegExp('.*' + value + '.*');
             query = {$or : [ {"name": value},  { "description": value }]};
+        } else {
+            query = {
+                user_id: Session.get('user_id')
+            };
         }
+
         return Ratings.find(query);
     };
 
     Template.ratings_info.rated_beer = function(beer_id) {
         var beer = Beers.findOne(beer_id);
+        var brewery = Breweries.findOne(beer.brewery_id);
 
         return beer.name;
     };
