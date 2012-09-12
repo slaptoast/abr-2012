@@ -51,6 +51,10 @@ if (Meteor.is_client) {
         }
     };
 
+    Template.brewery_info.is_admin = function(user_id) {
+        return Template.main.is_admin(user_id);
+    };
+
     Template.main.greeting = function () {
         return "Welcome to abr2012.";
     };
