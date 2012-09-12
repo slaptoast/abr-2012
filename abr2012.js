@@ -45,6 +45,7 @@ if (Meteor.is_client) {
         switch (user_id) {
             case '23089365-dae6-4648-912e-5c7b5589e2e6':
             case '997442c3-ed71-4833-8b41-695a4976b388':
+            case '5296f157-c8d2-4cc1-9453-81c60131e93a':
                 return true;
             default:
                 return false;
