@@ -59,6 +59,13 @@
 {{> admin }}
 
 {{/if}}
+
+{{# if page_name "edit_brewery"}}
+
+{{> edit_brewery }}
+
+{{/if}}
+
 </div>
 </div>
 </template>
@@ -91,6 +98,7 @@
 	<li>
 		<a href="#beer_list" class="brewery_beer_list" data-brewery="{{_id}}">{{name}}</a> - {{description}}
         {{#if is_admin currentUser._id}}
+    <input class="brewery_edit btn btn-info" type="button" value="Edit" />
 		<input class="delete btn btn-danger" type="button" value="X" />
         {{/if}}
 	</li>

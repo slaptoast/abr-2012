@@ -14,10 +14,12 @@
 
 <template name="add_brewery">
 	<div>
-	  	<input onfocus="$(this).val('');" value="name" type="text" id="brewery_name" /><br/>
-	  	<input onfocus="$(this).val('');" value="description" 	type="text" id="brewery_description" /><br/>
-	  	<input onfocus="$(this).val('');" value="url" 	type="text" id="brewery_url" /><br/>	
-	  	<input onfocus="$(this).val('');" class="text-default" value="phone" 	type="text" id="brewery_phone" /><br/>	
+	  	<input value="name" type="text" id="brewery_name" /><br/>
+	  	<input value="description" 	type="text" id="brewery_description" /><br/>
+	  	<input value="url" 	type="text" id="brewery_url" /><br/>	
+	  	<input value="location" 	type="text" id="brewery_location" /><br/>	
+	  	<input value="brewers" 	type="text" id="brewery_brewers" /><br/>	
+	  	<input value="guild" 	type="text" id="brewery_guild" /><br/>	
 	  	<input class="add btn btn-success" type="button" value="Add" />
 	</div>
 </template>
@@ -39,4 +41,54 @@
 
 <template name="brewery_option">
 	<option value="{{_id}}">{{name}}</option>
+</template>
+
+
+<template name="edit_brewery">
+	<div>
+	  	<label for="brewery_name">Name</label>
+	  	<input value="{{brewery.name}}" type="text" id="brewery_name" /><br/>
+	  	
+	  	<label for="brewery_description">description</label>
+	  	<input value="{{brewery.description}}" 	type="text" id="brewery_description" /><br/>
+	  	
+	  	<label for="brewery_url">Url</label>
+	  	<input value="{{brewery.url}}" 	type="text" id="brewery_url" /><br/>	
+	  	
+	  	<label for="brewery_location">Location</label>
+	  	<input value="{{brewery.location}}" type="text" id="brewery_location" /><br/>
+
+	  	<label for="brewery_brewers">Brewers</label>
+	  	<input value="{{brewery.brewers}}" type="text" id="brewery_brewers" /><br/>	
+	  	
+	  	<label for="brewery_guild">Guild</label>
+	  	<input value="{{brewery.guild}}" type="text" id="brewery_guild" /><br/>	
+
+	  	<input class="save btn btn-success" type="button" value="Save" />
+	</div>
+</template>
+
+
+<template name="edit_beer">
+	<div>
+	  	<label for="brewery_name">Name</label>
+	  	<input value="{{brewery.name}}" type="text" id="brewery_name" /><br/>
+	  	
+	  	<label for="brewery_description">description</label>
+	  	<input value="{{brewery.description}}" 	type="text" id="brewery_description" /><br/>
+	  	
+	  	<label for="brewery_url">Url</label>
+	  	<input value="{{brewery.url}}" 	type="text" id="brewery_url" /><br/>	
+	  	
+	  	<label for="brewery_location">Location</label>
+	  	<input value="{{brewery.location}}" type="text" id="brewery_location" /><br/>
+
+	  	<label for="brewery_brewers">Brewers</label>
+	  	<input value="{{brewery.brewers}}" type="text" id="brewery_brewers" /><br/>	
+	  	
+	  	<label for="brewery_guild">Guild</label>
+	  	<input value="{{brewery.guild}}" type="text" id="brewery_guild" /><br/>	
+
+	  	<input class="save btn btn-success" type="button" value="Save" />
+	</div>
 </template>

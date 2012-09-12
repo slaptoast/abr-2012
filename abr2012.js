@@ -45,7 +45,7 @@ if (Meteor.is_client) {
         switch (user_id) {
             case '23089365-dae6-4648-912e-5c7b5589e2e6':
             case '997442c3-ed71-4833-8b41-695a4976b388':
-            case '5296f157-c8d2-4cc1-9453-81c60131e93a':
+            case '5296f157-c8d2-4cc1-9453-81c60131e93a':  
                 return true;
             default:
                 return false;
@@ -105,7 +105,7 @@ if (Meteor.is_client) {
         return beers;
     };
 
-    Template.beer_list.brewery = function() {
+    brewery = function() {
         if (Session.get('brewery_id')) {
             return Breweries.findOne({_id: Session.get('brewery_id')});
         }
@@ -170,6 +170,10 @@ if (Meteor.is_client) {
     };
 
     Template.main.events = {
+        'click .brewery_edit' :function () {
+          Session.set('page_name', 'edit_brewery');
+          Session.set('brewery_id', this._id);
+        },
         'click .delete':function () {
             Breweries.remove(this._id);
         },
@@ -219,9 +223,30 @@ if (Meteor.is_client) {
             $('#brewery_name').val('');
             $('#brewery_description').val('');
             $('#brewery_url').val('');
-            $('#brewery_phone').val('');
         }
     };
+
+    Template.edit_brewery.events = {
+        'click .save':function () {
+            var brewery_name = $('#brewery_name').val();
+            var brewery_description = $('#brewery_description').val();
+            var brewery_url = $('#brewery_url').val();
+            var brewery_location = $('#brewery_location').val();
+            var brewery_brewers = $('#brewery_brewers').val();
+            var brewery_guild = $('#brewery_guild').val();
+
+            Breweries.update(Session.get("brewery_id"), {$set: 
+                {
+                    name: brewery_name, 
+                    description: brewery_description, 
+                    url: brewery_url,
+                    location: brewery_location,
+                    brewers: brewery_brewers,
+                    guild: brewery_guild
+                }
+            });
+        }
+    };    
 
     Template.add_beer.events = {
         'click .add':function () {
@@ -299,6 +324,8 @@ if (Meteor.is_server) {
             insert:function () {
                 return true;
             }, remove:function () {
+                return true;
+            }, update:function () {
                 return true;
             }
         });
