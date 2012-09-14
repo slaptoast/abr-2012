@@ -5,7 +5,18 @@ Breweries = new Meteor.Collection("breweries");
     description: '',
     location: '',
     url: '',
-    booth_number: ''
+    booth_number: '',
+    beers:[
+        {
+            brewery_id: '',
+            name: '',
+            description: '',
+            abv: '',
+            ibu: '',
+            style: '',
+            serving_type: ''
+        }
+    ]
 }
  */
 Beers = new Meteor.Collection("beers");
@@ -92,7 +103,7 @@ if (Meteor.is_client) {
     Template.beer_list.beers = function () {
         var query = {};
 
-        var value = Session.get('beer_search');
+        var value = Session.get('filter_beer');
 
         var byBrewery = Session.get('brewery_id');
 
