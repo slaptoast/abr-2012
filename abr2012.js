@@ -1,25 +1,33 @@
 Breweries = new Meteor.Collection("breweries");
-/*{ name: 'brewery',
- description: 'herp derp',
- location: 'blah blah',
- url: 'efefefe',
+/*
+{
+    name: '',
+    description: '',
+    location: '',
+    url: '',
+    booth_number: ''
+}
  */
 Beers = new Meteor.Collection("beers");
 /*
- { name: 'beer',
- description: 'herp derp',
- brewery_id: '1429924-132949123-93933',
- style: marzen
- }
+{
+    brewery_id: '',
+    name: '',
+    description: '',
+    abv: '',
+    ibu: '',
+    style: '',
+    serving_type: ''
+}1
  */
 Ratings = new Meteor.Collection("ratings");
 /*
- {
- user_id: 1,
- beer_id: 1,
- rating: 9,
- comments: 'hey we have some comments'
- }
+{
+    user_id: '',
+    beer_id: '',
+    rating: 0,
+    comments: '',
+}
  */
 
 if (Meteor.is_client) {
@@ -74,7 +82,7 @@ if (Meteor.is_client) {
             value = new RegExp('.*' + value + '.*', 'i');
             query = {$or:[
                 {"name":value},
-                { "description":value }
+                {"description":value}
             ]};
         }
 
@@ -92,7 +100,8 @@ if (Meteor.is_client) {
             value = new RegExp('.*' + value + '.*', 'i');
             query = {$or:[
                 {"name":value},
-                { "description":value }
+                {"description":value},
+                {"style":value}
             ]};
         } else if (byBrewery) {
             query = {brewery_id:byBrewery}
