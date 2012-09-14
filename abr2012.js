@@ -71,7 +71,7 @@ if (Meteor.is_client) {
         var value = Session.get('brewery_search');
 
         if (value) {
-            value = new RegExp('.*' + value + '.*');
+            value = new RegExp('.*' + value + '.*', 'i');
             query = {$or:[
                 {"name":value},
                 { "description":value }
@@ -89,7 +89,7 @@ if (Meteor.is_client) {
         var byBrewery = Session.get('brewery_id');
 
         if (value) {
-            value = new RegExp('.*' + value + '.*');
+            value = new RegExp('.*' + value + '.*', 'i');
             query = {$or:[
                 {"name":value},
                 { "description":value }
